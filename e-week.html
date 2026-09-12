@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Week 2026 · The Terminal</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dawod/thmanyah-font-web/index.css">
+  <style>
+    :root {
+      --teal: #035c5e;
+      --mint: #aee3e3;
+      --fog: #f2f2f2;
+      --ink: #2f2f2f;
+      --muted: #5a5a5a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; background: #111; font-family: "Thmanyah Sans", sans-serif; color: var(--ink); }
+    .deck { height: 100vh; display: flex; align-items: center; justify-content: center; }
+    .stage {
+      width: min(100vw, calc(100vh * 16 / 9));
+      height: min(100vh, calc(100vw * 9 / 16));
+      background: var(--fog);
+      position: relative;
+      overflow: hidden;
+    }
+    .rail {
+      position: absolute; top: 0; bottom: 0; left: 0; width: 12.4%;
+      z-index: 3; display: flex;
+    }
+    .rail .door {
+      flex: 1; background: var(--teal);
+      display: flex; flex-direction: column; align-items: center;
+      padding: 9% 0 0;
+    }
+    .rail .knob {
+      width: 22%; aspect-ratio: 1; border-radius: 50%; background: var(--mint);
+      margin: auto 0;
+    }
+    .rail .light { width: 22%; background: var(--mint); }
+    .brandbar {
+      position: absolute; top: 0; left: 0; right: 0; height: 12%;
+      z-index: 6; display: flex; flex-direction: row; justify-content: space-between;
+      align-items: center; padding: 1.2% 2.6% 1.2% 13.8%;
+      direction: ltr; pointer-events: none;
+    }
+    .brandbar img { display: block; object-fit: contain; }
+    .brandbar .club { height: 90%; width: auto; max-width: 8.2%; }
+    .brandbar .club-white { display: none; }
+    .brandbar .uni { height: 88%; width: auto; max-width: 38%; }
+    .stage:has(.slide.teal.on) .brandbar .club { display: none; }
+    .stage:has(.slide.teal.on) .brandbar .club-white { display: block; }
+    .slide {
+      position: absolute; inset: 0; display: none;
+      padding: 13.2% 5.4% 7% 16.2%;
+      background: var(--fog);
+    }
+    .slide.on { display: flex; flex-direction: column; }
+    .slide.teal { background: var(--teal); color: #fff; }
+    .heads { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 2.6%; }
+    .tag-box, .title-box {
+      background: var(--teal); color: #fff; font-weight: 700;
+      display: inline-block; line-height: 1.25;
+    }
+    .slide.teal .tag-box { background: var(--mint); color: var(--teal); }
+    .slide.teal .title-box { background: #fff; color: var(--teal); }
+    .tag-box { font-size: clamp(12px, 1.25vw, 16px); padding: 0.45em 0.95em; }
+    .title-box {
+      font-size: clamp(26px, 3.2vw, 46px);
+      padding: 0.32em 0.68em 0.36em;
+      letter-spacing: -0.03em;
+      direction: ltr;
+      unicode-bidi: isolate;
+    }
+    .ltr { direction: ltr; unicode-bidi: isolate; }
+    .line {
+      font-size: clamp(16px, 1.55vw, 22px);
+      line-height: 1.7;
+      max-width: 36ch;
+      color: var(--ink);
+    }
+    .slide.teal .line { color: #fff; }
+    .meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1.2%;
+      margin-top: auto;
+    }
+    .meta b {
+      display: block;
+      font-size: clamp(11px, 1.05vw, 14px);
+      color: var(--mint);
+      margin-bottom: 6px;
+      font-weight: 700;
+    }
+    .meta span {
+      display: block;
+      font-size: clamp(16px, 1.7vw, 24px);
+      font-weight: 700;
+      color: #fff;
+    }
+    .meta .cell { background: rgba(255,255,255,.1); padding: 5.5% 7%; }
+    .path {
+      flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2%; min-height: 0;
+    }
+    .step {
+      background: #fff; padding: 10% 9%;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .step em {
+      font-style: normal; font-size: clamp(11px, 1.05vw, 14px);
+      color: var(--teal); font-weight: 700; letter-spacing: .04em;
+    }
+    .step b {
+      font-size: clamp(20px, 2.1vw, 30px);
+      color: var(--teal); display: block; margin: 10px 0 8px; line-height: 1.2;
+    }
+    .step p { font-size: clamp(13px, 1.2vw, 16px); line-height: 1.5; color: var(--muted); }
+    .theme {
+      flex: 1; display: grid; grid-template-columns: 1.05fr .95fr; gap: 2.2%; min-height: 0;
+    }
+    .theme-copy { display: flex; flex-direction: column; justify-content: center; gap: 3.2%; }
+    .slogan {
+      font-size: clamp(22px, 2.6vw, 38px);
+      font-weight: 700; color: var(--teal); line-height: 1.25;
+    }
+    .kws { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .kw {
+      background: #fff; padding: 14px 16px;
+      font-weight: 700; color: var(--teal); font-size: clamp(14px, 1.3vw, 18px);
+    }
+    .kw .ltr { display: block; }
+    .kw small { display: block; font-weight: 500; color: var(--muted); font-size: clamp(11px, 1vw, 13px); margin-top: 4px; }
+    .theme-visual {
+      background: #fff; min-height: 0; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .theme-visual img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .ideas {
+      flex: 1; min-height: 0;
+      display: grid;
+      grid-template-columns: 1fr .86fr 1fr;
+      grid-template-rows: 1fr 1.15fr 1fr;
+      gap: 1.6%;
+      align-items: center;
+    }
+    .bulb {
+      grid-column: 2; grid-row: 2;
+      width: min(100%, 180px); aspect-ratio: 1;
+      justify-self: center;
+      background: var(--mint);
+      border-radius: 50%;
+      display: grid; place-items: center;
+    }
+    .bulb svg { width: 54%; height: 54%; }
+    .idea {
+      background: #fff;
+      padding: 12% 10%;
+      width: 100%;
+    }
+    .idea strong {
+      display: block; color: var(--teal);
+      font-size: clamp(14px, 1.35vw, 19px); margin-bottom: 4px;
+    }
+    .idea span { display: block; color: var(--muted); font-size: clamp(12px, 1.1vw, 15px); line-height: 1.4; }
+    .idea.a { grid-column: 1; grid-row: 1; }
+    .idea.b { grid-column: 3; grid-row: 1; }
+    .idea.c { grid-column: 1; grid-row: 2; }
+    .idea.d { grid-column: 3; grid-row: 2; }
+    .idea.e { grid-column: 2; grid-row: 3; }
+    .big { flex: 1; display: grid; grid-template-columns: 1.15fr .85fr; gap: 2%; min-height: 0; }
+    .board { background: #fff; min-height: 0; overflow: hidden; }
+    .board img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff; }
+    .stack { display: flex; flex-direction: column; gap: 1.4%; min-height: 0; }
+    .stack .cell {
+      flex: 1; background: rgba(255,255,255,.1); padding: 6% 8%;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .stack em { font-style: normal; color: var(--mint); font-size: clamp(12px, 1.1vw, 15px); font-weight: 700; }
+    .stack b { display: block; margin-top: 6px; font-size: clamp(16px, 1.7vw, 23px); line-height: 1.35; }
+    .punch {
+      margin-top: 1.6%;
+      font-size: clamp(15px, 1.45vw, 20px);
+      font-weight: 700; color: var(--mint);
+    }
+    .foot {
+      position: absolute; left: 16.2%; right: 5.4%; bottom: 3.2%;
+      display: flex; justify-content: space-between;
+      font-size: clamp(10px, .95vw, 13px); color: #888;
+    }
+    .slide.teal .foot { color: rgba(174,227,227,.7); }
+    .foot .pg { direction: ltr; unicode-bidi: isolate; }
+    .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(3,92,94,.12); z-index: 4; }
+    .progress i { display: block; height: 100%; width: 0; background: var(--teal); }
+    .slide.teal ~ .progress, .stage:has(.slide.teal.on) .progress { background: rgba(255,255,255,.12); }
+    .stage:has(.slide.teal.on) .progress i { background: var(--mint); }
+    .nav { position: fixed; bottom: 16px; left: 16px; display: flex; gap: 8px; z-index: 20; }
+    .nav button { width: 40px; height: 40px; border: 0; background: #fff; color: var(--teal); font-weight: 700; cursor: pointer; }
+    .hint { position: fixed; bottom: 22px; right: 18px; color: #777; font-size: 12px; z-index: 20; }
+  </style>
+</head>
+<body>
+  <div class="deck">
+    <div class="stage" id="stage">
+      <div class="rail" aria-hidden="true">
+        <div class="door"><div class="knob"></div></div>
+        <div class="light"></div>
+      </div>
+      <div class="brandbar" aria-hidden="true">
+        <img class="club" src="ep-mark.png" alt="">
+        <img class="club club-white" src="ep-mark-white.png" alt="">
+        <img class="uni" src="psu-logo.png" alt="">
+      </div>
+
+      <section class="slide teal on">
+        <div class="heads">
+          <div class="tag-box ltr">E-Week 2026 · The Terminal</div>
+          <div class="title-box">What is E-Week?</div>
+        </div>
+        <p class="line">منصة للمشاريع والبراندات الطلابية. الطالب يعرض مشروعه، والجامعة تعيش تجربة ريادة — مو بس معرض بوثات.</p>
+        <div class="meta">
+          <div class="cell"><b>المكان</b><span>مبنى البنات</span></div>
+          <div class="cell"><b>التاريخ</b><span>١٢، ١٣ أكتوبر</span></div>
+          <div class="cell"><b>الوقت</b><span class="ltr">9:00 AM – 3:00 PM</span></div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads">
+          <div class="tag-box">رحلة الطالب</div>
+          <div class="title-box">The Experience</div>
+        </div>
+        <div class="path">
+          <div class="step"><em>01</em><b>وصول</b><p>يدخل من بوابة التيرمنال ويستلم مسار الجولة.</p></div>
+          <div class="step"><em>02</em><b>بوردنج</b><p>محطة تعريف سريعة قبل ما يبدأ التجوّل.</p></div>
+          <div class="step"><em>03</em><b>المشاريع</b><p>يشوف البراندات، يجرب المنتجات، ويتكلم مع أصحابها.</p></div>
+          <div class="step"><em>04</em><b>تجربة</b><p>أنشطة وتفاعل — يطلع من الرحلة مو بس من المعرض.</p></div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads">
+          <div class="tag-box">الثيم</div>
+          <div class="title-box">The Theme</div>
+        </div>
+        <div class="theme">
+          <div class="theme-copy">
+            <div class="slogan">رحلة الريادة<br>وجهتك القادمة تنطلق من هنا</div>
+            <div class="kws">
+              <div class="kw"><span class="ltr">The Terminal</span><small>المساحة تتحوّل لمحطة سفر</small></div>
+              <div class="kw"><span class="ltr">Gate / Boarding</span><small>دخول، بوردنج، وخروج</small></div>
+              <div class="kw"><span class="ltr">Destination</span><small>كل مشروع وجهة محتملة</small></div>
+              <div class="kw"><span class="ltr">Journey</span><small>مسار واضح، مو طاولات متناثرة</small></div>
+            </div>
+          </div>
+          <div class="theme-visual">
+            <img src="assets/terminal-map.png" alt="مخطط The Terminal">
+          </div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads">
+          <div class="tag-box">للنقاش</div>
+          <div class="title-box">Ideas</div>
+        </div>
+        <div class="ideas">
+          <div class="idea a"><strong>Booths</strong><span>شكل البوثات وتوزيع البراندات</span></div>
+          <div class="idea b"><strong>Activities</strong><span>أنشطة قصيرة تحرك المكان</span></div>
+          <div class="idea c"><strong>Interactive Experiences</strong><span>تجارب يلمسها الطالب بنفسه</span></div>
+          <div class="idea d"><strong>Collaborations</strong><span>شراكات داخل الجامعة وخارجها</span></div>
+          <div class="idea e"><strong>Content Ideas</strong><span>لقطات ومحتوى يطلع مع الفعالية</span></div>
+          <div class="bulb" aria-hidden="true">
+            <svg viewBox="0 0 64 64" fill="none">
+              <path d="M32 8c-9.4 0-17 7.4-17 16.6 0 6.2 3.3 11.6 8.2 14.5V44h17.6v-4.9c4.9-2.9 8.2-8.3 8.2-14.5C49 15.4 41.4 8 32 8Z" stroke="#035c5e" stroke-width="3"/>
+              <path d="M25.5 48h13M28 53h8" stroke="#035c5e" stroke-width="3" stroke-linecap="round"/>
+              <circle cx="32" cy="24" r="3.2" fill="#035c5e"/>
+            </svg>
+          </div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide teal">
+        <div class="heads">
+          <div class="tag-box">الخلاصة</div>
+          <div class="title-box">The Big Picture</div>
+        </div>
+        <div class="big">
+          <div class="board"><img src="assets/terminal-map.png" alt="شكل المساحة"></div>
+          <div class="stack">
+            <div class="cell"><em>وين؟</em><b>مبنى البنات · يومين</b></div>
+            <div class="cell"><em>وش فيه؟</em><b>مشاريع + بوثات + تجارب</b></div>
+            <div class="cell"><em>ليش؟</em><b>رحلة ريادة، مو معرض عابر</b></div>
+          </div>
+        </div>
+        <p class="punch">ندخل الطالب رحلة. يطلع وهو جرّب، شاف، وتفاعل.</p>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <div class="progress"><i id="bar"></i></div>
+    </div>
+  </div>
+  <div class="nav">
+    <button type="button" id="prev">›</button>
+    <button type="button" id="next">‹</button>
+  </div>
+  <div class="hint">أسهم لوحة المفاتيح · F ملء الشاشة</div>
+  <script>
+    const slides = [...document.querySelectorAll(".slide")];
+    const bar = document.getElementById("bar");
+    let i = 0;
+    function show(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach((s, k) => s.classList.toggle("on", k === i));
+      slides.forEach((s, k) => { const f = s.querySelector(".pg"); if (f) f.textContent = (k + 1) + " / " + slides.length; });
+      bar.style.width = ((i + 1) / slides.length * 100) + "%";
+    }
+    document.getElementById("next").onclick = () => show(i + 1);
+    document.getElementById("prev").onclick = () => show(i - 1);
+    document.addEventListener("keydown", (e) => {
+      if (["ArrowLeft", "ArrowDown", "PageDown", " "].includes(e.key)) { e.preventDefault(); show(i + 1); }
+      if (["ArrowRight", "ArrowUp", "PageUp"].includes(e.key)) { e.preventDefault(); show(i - 1); }
+      if (e.key === "Home") show(0);
+      if (e.key.toLowerCase() === "f") {
+        if (!document.fullscreenElement) document.getElementById("stage").requestFullscreen();
+        else document.exitFullscreen();
+      }
+    });
+    show(0);
+  </script>
+</body>
+</html>
