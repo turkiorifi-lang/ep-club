@@ -3,18 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>E-Week 2026 · The Terminal</title>
+  <title>أسبوع الريادة 2026 · تصور تنفيذي</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dawod/thmanyah-font-web/index.css">
   <style>
     :root {
-      --teal: #0F1926;
-      --mint: #e6e9ee;
-      --fog: #f2f2f2;
-      --ink: #2f2f2f;
-      --muted: #5a5a5a;
+      --navy: #0F1926;
+      --mist: #e6e9ee;
+      --fog: #f4f5f7;
+      --ink: #1c1c1c;
+      --muted: #5c6168;
+      --line: #d7dbe0;
+      --gold: #c9a227;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    html, body { height: 100%; background: #111; font-family: "Thmanyah Sans", sans-serif; color: var(--ink); }
+    html, body { height: 100%; background: #0a0a0a; font-family: "Thmanyah Sans", sans-serif; color: var(--ink); }
     .deck { height: 100vh; display: flex; align-items: center; justify-content: center; }
     .stage {
       width: min(100vw, calc(100vh * 16 / 9));
@@ -23,278 +25,505 @@
       position: relative;
       overflow: hidden;
     }
-    .rail {
-      position: absolute; top: 0; bottom: 0; left: 0; width: 12.4%;
-      z-index: 3; display: flex;
-    }
-    .rail .door {
-      flex: 1; background: var(--teal);
-      display: flex; flex-direction: column; align-items: center;
-      padding: 9% 0 0;
-    }
-    .rail .knob {
-      width: 22%; aspect-ratio: 1; border-radius: 50%; background: var(--mint);
-      margin: auto 0;
-    }
-    .rail .light { width: 22%; background: var(--mint); }
-    .brandbar {
-      position: absolute; top: 0; left: 0; right: 0; height: 12%;
-      z-index: 6; display: flex; flex-direction: row; justify-content: space-between;
-      align-items: center; padding: 1.2% 2.6% 1.2% 13.8%;
-      direction: ltr; pointer-events: none;
-    }
-    .brandbar img { display: block; object-fit: contain; }
-    .brandbar .club { height: 90%; width: auto; max-width: 8.2%; }
-    .brandbar .club-white { display: none; }
-    .stage:has(.slide.teal.on) .brandbar .club { display: none; }
-    .stage:has(.slide.teal.on) .brandbar .club-white { display: block; }
     .slide {
       position: absolute; inset: 0; display: none;
-      padding: 13.2% 5.4% 7% 16.2%;
-      background: var(--fog);
+      padding: 6.2% 5.2% 6.4%;
+      flex-direction: column;
     }
-    .slide.on { display: flex; flex-direction: column; }
-    .slide.teal { background: var(--teal); color: #fff; }
-    .heads { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 2.6%; }
-    .tag-box, .title-box {
-      background: var(--teal); color: #fff; font-weight: 700;
-      display: inline-block; line-height: 1.25;
+    .slide.on { display: flex; }
+    .slide.navy { background: var(--navy); color: #fff; }
+    .slide.cover { padding: 0; }
+    .cover-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cover-shade {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(15,25,38,.88) 0%, rgba(15,25,38,.35) 58%, rgba(15,25,38,.15) 100%);
     }
-    .slide.teal .tag-box { background: var(--mint); color: var(--teal); }
-    .slide.teal .title-box { background: #fff; color: var(--teal); }
-    .tag-box { font-size: clamp(12px, 1.25vw, 16px); padding: 0.45em 0.95em; }
-    .title-box {
-      font-size: clamp(26px, 3.2vw, 46px);
-      padding: 0.32em 0.68em 0.36em;
-      letter-spacing: -0.03em;
-      direction: ltr;
-      unicode-bidi: isolate;
+    .cover-copy {
+      position: relative; z-index: 2; height: 100%;
+      display: flex; flex-direction: column; justify-content: space-between;
+      padding: 6% 7%;
     }
+    .kicker { font-size: clamp(11px, 1.1vw, 14px); letter-spacing: .14em; color: var(--mist); }
+    .cover-copy h1 { font-size: clamp(34px, 4.4vw, 64px); line-height: 1.12; max-width: 10ch; }
+    .cover-copy h2 { font-size: clamp(16px, 1.7vw, 24px); font-weight: 500; color: var(--mist); margin-top: 10px; }
+    .meta-row { display: flex; gap: 28px; flex-wrap: wrap; font-size: clamp(13px, 1.2vw, 16px); }
+    .meta-row b { display: block; color: #9aa3ad; font-size: 11px; margin-bottom: 4px; font-weight: 700; }
+    .brand { height: 46px; width: auto; }
+    .heads { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 2.4%; }
+    .tag, .ttl {
+      background: var(--navy); color: #fff; font-weight: 700; display: inline-block; line-height: 1.25;
+    }
+    .slide.navy .tag { background: var(--mist); color: var(--navy); }
+    .slide.navy .ttl { background: #fff; color: var(--navy); }
+    .tag { font-size: clamp(11px, 1.1vw, 14px); padding: .42em .9em; }
+    .ttl { font-size: clamp(22px, 2.6vw, 36px); padding: .28em .62em; }
     .ltr { direction: ltr; unicode-bidi: isolate; }
-    .line {
-      font-size: clamp(16px, 1.55vw, 22px);
-      line-height: 1.7;
-      max-width: 36ch;
-      color: var(--ink);
+    .lead { font-size: clamp(15px, 1.45vw, 20px); line-height: 1.7; max-width: 46ch; color: var(--ink); }
+    .slide.navy .lead { color: #fff; }
+    .chips { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-top: auto; }
+    .chip { background: #fff; padding: 4.2% 5%; }
+    .chip b { display: block; color: var(--navy); font-size: clamp(13px, 1.25vw, 17px); margin-bottom: 4px; }
+    .chip span { color: var(--muted); font-size: clamp(12px, 1.05vw, 14px); line-height: 1.4; }
+    .table { width: 100%; border-collapse: collapse; background: #fff; }
+    .table th, .table td { text-align: right; padding: 14px 18px; border-bottom: 1px solid var(--line); font-size: clamp(13px, 1.25vw, 17px); }
+    .table th { width: 28%; color: var(--muted); font-weight: 600; background: var(--mist); }
+    .table td { font-weight: 700; color: var(--navy); }
+    .split { flex: 1; min-height: 0; display: grid; gap: 1.6%; }
+    .split-2 { grid-template-columns: 1.05fr .95fr; }
+    .split-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .split-21 { grid-template-columns: 1.25fr .75fr; }
+    .pic { min-height: 0; overflow: hidden; background: #fff; }
+    .pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .pic.contain img { object-fit: contain; background: #fff; }
+    .quote {
+      margin-top: auto; background: var(--navy); color: #fff;
+      padding: 1.6% 2.2%; font-size: clamp(13px, 1.2vw, 16px); line-height: 1.6;
     }
-    .slide.teal .line { color: #fff; }
-    .meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 1.2%;
-      margin-top: auto;
+    .swatches { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .sw { background: #fff; overflow: hidden; }
+    .sw i { display: block; height: 72px; }
+    .sw p { padding: 10px 12px; font-size: 13px; }
+    .sw b { display: block; color: var(--navy); }
+    .id-notes { display: grid; gap: 8px; }
+    .id-notes div { background: #fff; padding: 12px 14px; }
+    .id-notes b { color: var(--navy); display: block; margin-bottom: 4px; }
+    .id-notes span { color: var(--muted); font-size: 13px; line-height: 1.45; }
+    .path { flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; min-height: 0; }
+    .step { background: #fff; padding: 8% 8%; display: flex; flex-direction: column; justify-content: center; }
+    .step em { font-style: normal; color: var(--gold); font-weight: 700; font-size: 12px; }
+    .step b { display: block; margin: 8px 0 6px; color: var(--navy); font-size: clamp(15px, 1.5vw, 20px); }
+    .step p { color: var(--muted); font-size: clamp(12px, 1.05vw, 14px); line-height: 1.45; }
+    .map-wrap { flex: 1; min-height: 0; display: grid; grid-template-columns: 1.4fr .7fr; gap: 1.4%; }
+    .map {
+      position: relative; background: #fff; overflow: hidden;
     }
-    .meta b {
-      display: block;
-      font-size: clamp(11px, 1.05vw, 14px);
-      color: var(--mint);
-      margin-bottom: 6px;
-      font-weight: 700;
+    .map img { width: 100%; height: 100%; object-fit: contain; display: block; }
+    .pin {
+      position: absolute; transform: translate(-50%, -50%);
+      font-size: 11px; font-weight: 700; color: #fff; padding: 5px 8px; white-space: nowrap;
+      background: var(--navy);
     }
-    .meta span {
-      display: block;
-      font-size: clamp(16px, 1.7vw, 24px);
-      font-weight: 700;
-      color: #fff;
+    .pin.gold { background: var(--gold); color: var(--navy); }
+    .pin.mute { background: #8b919a; }
+    .pin.open {
+      background: rgba(15,25,38,.08); color: var(--navy);
+      border: 1.5px dashed var(--navy); padding: 10px 12px; text-align: center;
     }
-    .meta .cell { background: rgba(255,255,255,.1); padding: 5.5% 7%; }
-    .path {
-      flex: 1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2%; min-height: 0;
+    .schematic {
+      width: 100%; height: 150px; background: #fff; margin-bottom: 10px;
     }
-    .step {
-      background: #fff; padding: 10% 9%;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .step em {
-      font-style: normal; font-size: clamp(11px, 1.05vw, 14px);
-      color: var(--teal); font-weight: 700; letter-spacing: .04em;
-    }
-    .step b {
-      font-size: clamp(20px, 2.1vw, 30px);
-      color: var(--teal); display: block; margin: 10px 0 8px; line-height: 1.2;
-    }
-    .step p { font-size: clamp(13px, 1.2vw, 16px); line-height: 1.5; color: var(--muted); }
-    .theme {
-      flex: 1; display: grid; grid-template-columns: 1.05fr .95fr; gap: 2.2%; min-height: 0;
-    }
-    .theme-copy { display: flex; flex-direction: column; justify-content: center; gap: 3.2%; }
-    .slogan {
-      font-size: clamp(22px, 2.6vw, 38px);
-      font-weight: 700; color: var(--teal); line-height: 1.25;
-    }
-    .kws { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-    .kw {
-      background: #fff; padding: 14px 16px;
-      font-weight: 700; color: var(--teal); font-size: clamp(14px, 1.3vw, 18px);
-    }
-    .kw .ltr { display: block; }
-    .kw small { display: block; font-weight: 500; color: var(--muted); font-size: clamp(11px, 1vw, 13px); margin-top: 4px; }
-    .theme-visual {
-      background: #fff; min-height: 0; overflow: hidden;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .theme-visual img { width: 100%; height: 100%; object-fit: contain; display: block; }
-    .ideas {
-      flex: 1; min-height: 0;
-      display: grid;
-      grid-template-columns: 1fr .86fr 1fr;
-      grid-template-rows: 1fr 1.15fr 1fr;
-      gap: 1.6%;
-      align-items: center;
-    }
-    .bulb {
-      grid-column: 2; grid-row: 2;
-      width: min(100%, 180px); aspect-ratio: 1;
-      justify-self: center;
-      background: var(--mint);
-      border-radius: 50%;
-      display: grid; place-items: center;
-    }
-    .bulb svg { width: 54%; height: 54%; }
-    .idea {
-      background: #fff;
-      padding: 12% 10%;
-      width: 100%;
-    }
-    .idea strong {
-      display: block; color: var(--teal);
-      font-size: clamp(14px, 1.35vw, 19px); margin-bottom: 4px;
-    }
-    .idea span { display: block; color: var(--muted); font-size: clamp(12px, 1.1vw, 15px); line-height: 1.4; }
-    .idea.a { grid-column: 1; grid-row: 1; }
-    .idea.b { grid-column: 3; grid-row: 1; }
-    .idea.c { grid-column: 1; grid-row: 2; }
-    .idea.d { grid-column: 3; grid-row: 2; }
-    .idea.e { grid-column: 2; grid-row: 3; }
-    .big { flex: 1; display: grid; grid-template-columns: 1.15fr .85fr; gap: 2%; min-height: 0; }
-    .board { background: #fff; min-height: 0; overflow: hidden; }
-    .board img { width: 100%; height: 100%; object-fit: contain; display: block; background: #fff; }
-    .stack { display: flex; flex-direction: column; gap: 1.4%; min-height: 0; }
-    .stack .cell {
-      flex: 1; background: rgba(255,255,255,.1); padding: 6% 8%;
-      display: flex; flex-direction: column; justify-content: center;
-    }
-    .stack em { font-style: normal; color: var(--mint); font-size: clamp(12px, 1.1vw, 15px); font-weight: 700; }
-    .stack b { display: block; margin-top: 6px; font-size: clamp(16px, 1.7vw, 23px); line-height: 1.35; }
-    .punch {
-      margin-top: 1.6%;
-      font-size: clamp(15px, 1.45vw, 20px);
-      font-weight: 700; color: var(--mint);
-    }
+    .legend { background: #fff; padding: 6% 7%; display: flex; flex-direction: column; gap: 10px; overflow: auto; }
+    .legend h3 { color: var(--navy); font-size: 16px; margin-bottom: 6px; }
+    .lg { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45; color: var(--muted); }
+    .dot { width: 12px; height: 12px; flex-shrink: 0; margin-top: 4px; background: var(--navy); }
+    .dot.gold { background: var(--gold); }
+    .dot.mute { background: #8b919a; }
+    .dot.dash { background: transparent; border: 1.5px dashed var(--navy); }
+    .stack { display: flex; flex-direction: column; gap: 8px; min-height: 0; }
+    .card { background: #fff; padding: 12px 14px; }
+    .card b { color: var(--navy); display: block; margin-bottom: 4px; }
+    .card span, .card p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+    .list { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .list li { list-style: none; background: #fff; padding: 12px 14px; font-size: 14px; color: var(--navy); font-weight: 600; }
+    .phases { flex: 1; display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; align-content: center; }
+    .ph { background: #fff; padding: 12% 8%; min-height: 0; }
+    .ph em { font-style: normal; color: var(--gold); font-weight: 700; font-size: 12px; }
+    .ph b { display: block; margin-top: 8px; color: var(--navy); font-size: clamp(14px, 1.35vw, 18px); line-height: 1.35; }
+    .need { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .need div { background: #fff; padding: 16px 18px; font-size: clamp(14px, 1.3vw, 18px); font-weight: 700; color: var(--navy); }
     .foot {
-      position: absolute; left: 16.2%; right: 5.4%; bottom: 3.2%;
+      position: absolute; left: 5.2%; right: 5.2%; bottom: 2.6%;
       display: flex; justify-content: space-between;
-      font-size: clamp(10px, .95vw, 13px); color: #888;
+      font-size: 11px; color: #8a8a8a;
     }
-    .slide.teal .foot { color: rgba(230,233,238,.7); }
+    .slide.navy .foot, .slide.cover .foot { color: rgba(230,233,238,.7); }
     .foot .pg { direction: ltr; unicode-bidi: isolate; }
-    .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: rgba(15,25,38,.12); z-index: 4; }
-    .progress i { display: block; height: 100%; width: 0; background: var(--teal); }
-    .slide.teal ~ .progress, .stage:has(.slide.teal.on) .progress { background: rgba(255,255,255,.12); }
-    .stage:has(.slide.teal.on) .progress i { background: var(--mint); }
+    .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(15,25,38,.1); z-index: 5; }
+    .progress i { display: block; height: 100%; width: 0; background: var(--navy); }
+    .stage:has(.slide.navy.on) .progress, .stage:has(.slide.cover.on) .progress { background: rgba(255,255,255,.12); }
+    .stage:has(.slide.navy.on) .progress i, .stage:has(.slide.cover.on) .progress i { background: var(--mist); }
     .nav { position: fixed; bottom: 16px; left: 16px; display: flex; gap: 8px; z-index: 20; }
-    .nav button { width: 40px; height: 40px; border: 0; background: #fff; color: var(--teal); font-weight: 700; cursor: pointer; }
+    .nav button { width: 40px; height: 40px; border: 0; background: #fff; color: var(--navy); font-weight: 700; cursor: pointer; }
     .hint { position: fixed; bottom: 22px; right: 18px; color: #777; font-size: 12px; z-index: 20; }
+    .end { height: 100%; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+    .end h1 { font-size: clamp(32px, 4vw, 56px); }
+    .end p { font-size: clamp(16px, 1.6vw, 22px); color: var(--mist); }
+    .two-pic { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; min-height: 0; }
   </style>
 </head>
 <body>
   <div class="deck">
     <div class="stage" id="stage">
-      <div class="rail" aria-hidden="true">
-        <div class="door"><div class="knob"></div></div>
-        <div class="light"></div>
-      </div>
-      <div class="brandbar" aria-hidden="true">
-        <img class="club" src="assets/brand/logo-mark.png" alt="">
-        <img class="club club-white" src="assets/brand/logo-mark-white.png" alt="">
-      </div>
 
-      <section class="slide teal on">
-        <div class="heads">
-          <div class="tag-box ltr">E-Week 2026 · The Terminal</div>
-          <div class="title-box">What is E-Week?</div>
-        </div>
-        <p class="line">منصة للمشاريع والبراندات الطلابية. الطالب يعرض مشروعه، والجامعة تعيش تجربة ريادة — مو بس معرض بوثات.</p>
-        <div class="meta">
-          <div class="cell"><b>المكان</b><span>مبنى البنات</span></div>
-          <div class="cell"><b>التاريخ</b><span>١٢، ١٣ أكتوبر</span></div>
-          <div class="cell"><b>الوقت</b><span class="ltr">9:00 AM – 3:00 PM</span></div>
+      <section class="slide cover navy on">
+        <img class="cover-img" src="assets/proposal/proposal-cover.png" alt="">
+        <div class="cover-shade"></div>
+        <div class="cover-copy">
+          <div>
+            <img class="brand" src="assets/brand/logo-mark-white.png" alt="">
+            <div class="kicker" style="margin-top:18px">PRODUCTION PROPOSAL · THE TERMINAL</div>
+          </div>
+          <div>
+            <h1>أسبوع الريادة 2026</h1>
+            <h2>التصور العام للفعالية والتنفيذ</h2>
+          </div>
+          <div class="meta-row">
+            <div><b>الجامعة</b>جامعة الأمير سلطان</div>
+            <div><b>التاريخ</b><span class="ltr">12–13 أكتوبر</span></div>
+            <div><b>الموقع</b>مبنى الطالبات</div>
+            <div><b>الوقت</b><span class="ltr">9:00 AM – 3:00 PM</span></div>
+          </div>
         </div>
         <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
       </section>
 
       <section class="slide">
-        <div class="heads">
-          <div class="tag-box">رحلة الطالب</div>
-          <div class="title-box">The Experience</div>
+        <div class="heads"><div class="tag">02 · النبذة</div><div class="ttl">وش هي الفعالية؟</div></div>
+        <p class="lead">أسبوع الريادة يبرز المشاريع والعلامات التجارية الطلابية، ويعطي أصحابها مساحة يعرضون فيها أفكارهم ومنتجاتهم أمام المجتمع الجامعي.</p>
+        <div class="chips">
+          <div class="chip"><b>براندات</b><span>مشاريع وعلامات تجارية طلابية</span></div>
+          <div class="chip"><b>تجارب</b><span>محطات تفاعلية داخل المسار</span></div>
+          <div class="chip"><b>ريادة</b><span>تعريف عملي بريادة الأعمال</span></div>
+          <div class="chip"><b>تواصل</b><span>لقاء بين الطلاب وأصحاب المشاريع</span></div>
+          <div class="chip"><b>أنشطة</b><span>فعاليات مصاحبة قابلة للتطوير</span></div>
         </div>
+        <div class="quote">الهدف: تجربة متكاملة. الزائر يعيش الفعالية وينتقل بين المحطات، مو بس يمر على طاولات.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">03 · المعلومات</div><div class="ttl">بطاقة الفعالية</div></div>
+        <table class="table">
+          <tr><th>اسم الفعالية</th><td>أسبوع الريادة 2026</td></tr>
+          <tr><th>التاريخ</th><td>12–13 أكتوبر</td></tr>
+          <tr><th>الموقع</th><td>مبنى الطالبات · الأتريوم</td></tr>
+          <tr><th>الوقت</th><td>9:00 صباحًا – 3:00 مساءً</td></tr>
+          <tr><th>الفئة المستهدفة</th><td>طلاب وطالبات الجامعة</td></tr>
+          <tr><th>عدد البوثات</th><td>تقريبًا 18 بوث</td></tr>
+          <tr><th>المدة</th><td>يومان</td></tr>
+        </table>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide navy">
+        <div class="heads"><div class="tag">04 · الثيم</div><div class="ttl">The Terminal</div></div>
+        <div class="split split-2">
+          <div class="pic contain"><img src="assets/proposal/proposal-keyvisual.png" alt="Key visual"></div>
+          <div class="stack" style="justify-content:center">
+            <div class="card" style="background:rgba(255,255,255,.08)"><b style="color:#fff">رحلة الريادة</b><p style="color:#d5d9de">وجهتك القادمة تنطلق من هنا. المساحة تتحوّل لمحطة سفر: بوابات، بوردنج، ومسار واضح.</p></div>
+            <div class="swatches">
+              <div class="sw"><i style="background:#0F1926"></i><p><b>Navy</b>#0F1926</p></div>
+              <div class="sw"><i style="background:#e6e9ee"></i><p><b>Mist</b>#E6E9EE</p></div>
+              <div class="sw"><i style="background:#f4f5f7"></i><p><b>Fog</b>#F4F5F7</p></div>
+              <div class="sw"><i style="background:#c9a227"></i><p><b>Gold</b>#C9A227</p></div>
+            </div>
+            <div class="card" style="background:rgba(255,255,255,.08)"><b style="color:#fff">الخط</b><p style="color:#d5d9de">Thmanyah Sans — عناوين حادة، كلام قليل، لغة بصرية أقرب لمحطة منها لمعرض تقليدي.</p></div>
+          </div>
+        </div>
+        <div class="quote">تم تصميم تجربة أسبوع الريادة لتكون رحلة متكاملة للزائر، تبدأ من لحظة الدخول، مرورًا بالبوثات والتجارب، وانتهاءً بمنطقة الخروج.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">05 · التجربة</div><div class="ttl">مسار الزائر</div></div>
         <div class="path">
-          <div class="step"><em>01</em><b>وصول</b><p>يدخل من بوابة التيرمنال ويستلم مسار الجولة.</p></div>
-          <div class="step"><em>02</em><b>بوردنج</b><p>محطة تعريف سريعة قبل ما يبدأ التجوّل.</p></div>
-          <div class="step"><em>03</em><b>المشاريع</b><p>يشوف البراندات، يجرب المنتجات، ويتكلم مع أصحابها.</p></div>
-          <div class="step"><em>04</em><b>تجربة</b><p>أنشطة وتفاعل — يطلع من الرحلة مو بس من المعرض.</p></div>
+          <div class="step"><em>01</em><b>الدخول</b><p>بوابة التيرمنال من يسار كورنر الأمن.</p></div>
+          <div class="step"><em>02</em><b>الاستقبال</b><p>بوث البوردنج. Pass للزائر.</p></div>
+          <div class="step"><em>03</em><b>الأمن</b><p>كورنر التفتيش في منتصف المدخل.</p></div>
+          <div class="step"><em>04</em><b>البوثات</b><p>استكشاف ١٨ مشروعًا حول الأتريوم.</p></div>
+          <div class="step"><em>05</em><b>التجارب</b><p>أنشطة ومنطقة مركزية لاحقًا.</p></div>
+          <div class="step"><em>06</em><b>الخروج</b><p>مسار منفصل يمين الكورنر.</p></div>
+        </div>
+        <div class="quote">دخول وخروج منفصلان. الزائر ما يرجع من نفس المسار اللي دخل منه.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">06 · الموقع</div><div class="ttl">مخطط التوزيع</div></div>
+        <div class="map-wrap">
+          <div class="map">
+            <img src="assets/proposal/plan-source.jpg" alt="مخطط المبنى">
+          </div>
+          <div class="legend">
+            <svg class="schematic" viewBox="0 0 320 150" aria-hidden="true">
+              <rect x="1" y="1" width="318" height="148" fill="#f4f5f7" stroke="#0F1926" stroke-width="1"/>
+              <ellipse cx="160" cy="62" rx="78" ry="42" fill="none" stroke="#0F1926" stroke-dasharray="4 3"/>
+              <text x="160" y="66" text-anchor="middle" font-size="9" fill="#0F1926" font-family="Thmanyah Sans, sans-serif">مفتوح</text>
+              <g fill="#c9a227">
+                <rect x="70" y="22" width="12" height="8"/><rect x="70" y="32" width="12" height="8"/><rect x="70" y="42" width="12" height="8"/>
+                <rect x="70" y="52" width="12" height="8"/><rect x="70" y="62" width="12" height="8"/><rect x="70" y="72" width="12" height="8"/>
+                <rect x="70" y="82" width="12" height="8"/><rect x="70" y="92" width="12" height="8"/><rect x="84" y="22" width="12" height="8"/>
+                <rect x="236" y="22" width="12" height="8"/><rect x="236" y="32" width="12" height="8"/><rect x="236" y="42" width="12" height="8"/>
+                <rect x="236" y="52" width="12" height="8"/><rect x="236" y="62" width="12" height="8"/><rect x="236" y="72" width="12" height="8"/>
+                <rect x="236" y="82" width="12" height="8"/><rect x="236" y="92" width="12" height="8"/><rect x="222" y="22" width="12" height="8"/>
+              </g>
+              <rect x="92" y="112" width="42" height="22" fill="#0F1926"/>
+              <rect x="142" y="114" width="36" height="18" fill="#8b919a"/>
+              <rect x="186" y="112" width="42" height="22" fill="#0F1926"/>
+              <text x="113" y="126" text-anchor="middle" font-size="7" fill="#fff" font-family="Thmanyah Sans, sans-serif">بوردنج</text>
+              <text x="160" y="126" text-anchor="middle" font-size="7" fill="#fff" font-family="Thmanyah Sans, sans-serif">أمن</text>
+              <text x="207" y="126" text-anchor="middle" font-size="7" fill="#fff" font-family="Thmanyah Sans, sans-serif">خروج</text>
+            </svg>
+            <h3>قراءة المخطط</h3>
+            <div class="lg"><span class="dot"></span>يسار الكورنر: بوابة الدخول + بوث البوردنج</div>
+            <div class="lg"><span class="dot mute"></span>المنتصف: كورنر الأمن والتفتيش</div>
+            <div class="lg"><span class="dot"></span>يمين الكورنر: بوابة الخروج + بوث الخروج</div>
+            <div class="lg"><span class="dot gold"></span>١٨ بوث على جانبي الأتريوم</div>
+            <div class="lg"><span class="dot dash"></span>الوسط يبقى مفتوحًا — عنصر رئيسي يُعتمد لاحقًا</div>
+            <div class="lg"><span class="dot"></span>المسرح والشاشات: بنية قائمة في المبنى، ليست إنشاءً جديدًا</div>
+          </div>
         </div>
         <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
       </section>
 
       <section class="slide">
-        <div class="heads">
-          <div class="tag-box">الثيم</div>
-          <div class="title-box">The Theme</div>
+        <div class="heads"><div class="tag">07 · الدخول</div><div class="ttl">بوابة الدخول</div></div>
+        <div class="split split-21">
+          <div class="pic"><img src="assets/proposal/proposal-gate.png" alt="رندر البوابة"></div>
+          <div class="stack">
+            <div class="card"><b>الشكل</b><span>بوابة تيرمنال بهوية Navy. شعار أسبوع الريادة أعلى العتبة.</span></div>
+            <div class="card"><b>المسار</b><span>الدخول من يسار كورنر الأمن بعد البوردنج.</span></div>
+            <div class="card"><b>الأمن</b><span>نقطة التفتيش تظهر مباشرة بعد العتبة، في المنتصف.</span></div>
+            <div class="card"><b>البوردنج</b><span>كاونتر الاستقبال ملاصق لليسار قبل العبور.</span></div>
+          </div>
         </div>
-        <div class="theme">
-          <div class="theme-copy">
-            <div class="slogan">رحلة الريادة<br>وجهتك القادمة تنطلق من هنا</div>
-            <div class="kws">
-              <div class="kw"><span class="ltr">The Terminal</span><small>المساحة تتحوّل لمحطة سفر</small></div>
-              <div class="kw"><span class="ltr">Gate / Boarding</span><small>دخول، بوردنج، وخروج</small></div>
-              <div class="kw"><span class="ltr">Destination</span><small>كل مشروع وجهة محتملة</small></div>
-              <div class="kw"><span class="ltr">Journey</span><small>مسار واضح، مو طاولات متناثرة</small></div>
+        <div class="quote">بوابة الدخول هي نقطة البداية. الزائر يستقبل هوية أسبوع الريادة قبل ما يدخل منطقة الفعالية.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">08 · البوردنج</div><div class="ttl">بوث الاستقبال</div></div>
+        <div class="split split-2">
+          <div class="pic"><img src="assets/proposal/proposal-boarding.png" alt="بوث البوردنج"></div>
+          <div class="stack" style="justify-content:center">
+            <div class="card"><b>BOARDING</b><span>مو بوث عرض. محطة دخول: كاونتر، شاشة وجهات، وPass للزائر.</span></div>
+            <div class="card"><b>الاستقبال</b><span>فريق يستلم الزائر، يشرح المسار، ويسلّم بطاقة الجولة.</span></div>
+            <div class="card"><b>العنصر البصري</b><span>خلفية Navy + شاشة بجدول الرحلة / هوية The Terminal.</span></div>
+            <div class="pic" style="flex:1;min-height:120px"><img src="assets/proposal/proposal-pass.png" alt="بطاقة المرور"></div>
+          </div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">09 · الأمن</div><div class="ttl">كورنر الأمن والدخول</div></div>
+        <div class="split split-2">
+          <div class="pic"><img src="assets/proposal/proposal-security.png" alt="كورنر الأمن"></div>
+          <div class="stack" style="justify-content:center">
+            <div class="card"><b>المنتصف</b><span>كورنر الأمن ثابت في وسط مدخل الأتريوم. لا يتحرك يمين أو يسار.</span></div>
+            <div class="card"><b>مسار الدخول</b><span>بوردنج ← يسار الكورنر ← بوابة الدخول.</span></div>
+            <div class="card"><b>مسار الخروج</b><span>يمين الكورنر ← بوث الخروج ← بوابة الخروج.</span></div>
+            <div class="card"><b>الفصل</b><span>مساران منفصلان. التدفق ما يتصادم عند التفتيش.</span></div>
+          </div>
+        </div>
+        <div class="quote">الترتيب المعتمد: دخول → بوردنج → كورنر الأمن في المنتصف → البوثات → خروج من اليمين.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">10 · البوثات</div><div class="ttl">منطقة المشاريع · ١٨ بوث</div></div>
+        <div class="two-pic">
+          <div class="pic"><img src="assets/proposal/proposal-booth-front.png" alt="بوث أمامي"></div>
+          <div class="pic"><img src="assets/proposal/proposal-booth-side.png" alt="بوث جانبي"></div>
+        </div>
+        <div class="chips" style="margin-top:10px;grid-template-columns:repeat(6,1fr)">
+          <div class="chip"><b>العدد</b><span>١٨ تقريبًا</span></div>
+          <div class="chip"><b>المقاس المقترح</b><span>٢ × ٢ م</span></div>
+          <div class="chip"><b>التوزيع</b><span>٩ + ٩ على الجانبين</span></div>
+          <div class="chip"><b>العرض</b><span>كاونتر + رف منتجات</span></div>
+          <div class="chip"><b>التخزين</b><span>خزانة تحت الكاونتر</span></div>
+          <div class="chip"><b>كهرباء / إضاءة</b><span>LED + منفذ خلفي</span></div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">11 · النظام</div><div class="ttl">نظام تصميم البوثات</div></div>
+        <div class="split split-2" style="flex:1">
+          <div class="stack">
+            <div class="card"><b>الهيكل الأساسي — موحّد</b><span>كاونتر · خلفية · شعار أسبوع الريادة · إضاءة LED · مساحة عرض · منفذ كهرباء · لوحة اسم المشروع.</span></div>
+            <div class="card"><b>التخصيص — لكل براند</b><span>ألوان المشروع · المنتجات · العناصر الخاصة · اللوقو على الخلفية.</span></div>
+            <div class="card"><b>اللوحات التعريفية</b><span>اسم البراند + جملة واحدة عن المشروع. نفس القالب لكل البوثات.</span></div>
+          </div>
+          <div class="pic"><img src="assets/proposal/proposal-booth-front.png" alt=""></div>
+        </div>
+        <div class="quote">هوية واحدة للمكان، ومرونة بسيطة لكل مشروع. الشركة تصمّم النظام مرة، ثم تكرّره ١٨ مرة.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide navy">
+        <div class="heads"><div class="tag">12 · الوسط</div><div class="ttl">المنطقة المركزية — قيد التطوير</div></div>
+        <p class="lead" style="max-width:38ch">الوسط يبقى فارغًا عن قصد. مو مساحة ناسية — محجوزة لعنصر رئيسي يُعتمد لاحقًا.</p>
+        <div class="quote">سيتم تخصيص المنطقة المركزية لعنصر رئيسي يدعم تجربة الزائر ويكون نقطة جذب بصرية داخل الفعالية، وسيتم اعتماد التصميم النهائي لاحقًا.</div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">13 · الأنشطة</div><div class="ttl">التجارب المصاحبة</div></div>
+        <p class="lead" style="margin-bottom:2%">مقترحات قابلة للتطوير — ليست حزمة نهائية.</p>
+        <ul class="list">
+          <li>ورش عمل قصيرة</li>
+          <li>تجارب تفاعلية عند البوثات</li>
+          <li>تحديات ريادية سريعة</li>
+          <li>ركن تصوير بهوية The Terminal</li>
+          <li>مسابقات للزوار</li>
+          <li>محتوى حي للشاشات</li>
+        </ul>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">14 · المسرح</div><div class="ttl">الشاشات القائمة</div></div>
+        <div class="split split-2">
+          <div class="pic"><img src="assets/proposal/atrium-2.jpg" alt="المسرح الحالي"></div>
+          <div class="stack" style="justify-content:center">
+            <div class="card"><b>بنية موجودة</b><span>المسرح والشاشات جزء من المبنى. مو عنصر مطلوب إنشاؤه.</span></div>
+            <div class="card"><b>الاستخدام المقترح</b><span>هوية الفعالية · جدول الأنشطة · عرض المشاريع · إعلانات التشغيل.</span></div>
+            <div class="card"><b>المطلوب من الإنتاج</b><span>محتوى بصري للشاشات + توجيه تشغيل، بدون بناء منصة جديدة.</span></div>
+          </div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">15 · الهوية</div><div class="ttl">نظام التصميم</div></div>
+        <div class="split split-2">
+          <div class="stack">
+            <div class="swatches">
+              <div class="sw"><i style="background:#0F1926"></i><p><b>Navy</b>#0F1926</p></div>
+              <div class="sw"><i style="background:#e6e9ee"></i><p><b>Mist</b>#E6E9EE</p></div>
+              <div class="sw"><i style="background:#ffffff;border-bottom:1px solid #eee"></i><p><b>White</b>#FFFFFF</p></div>
+              <div class="sw"><i style="background:#c9a227"></i><p><b>Gold</b>#C9A227</p></div>
+            </div>
+            <div class="id-notes">
+              <div><b>الخط</b><span>Thmanyah Sans للعناوين والنصوص. إنجليزي للثيم: THE TERMINAL.</span></div>
+              <div><b>الاستخدام</b><span>Navy للبوابات والهياكل. أبيض للكاونترات. Gold لنقاط المسار فقط.</span></div>
             </div>
           </div>
-          <div class="theme-visual">
-            <img src="assets/terminal-map.png" alt="مخطط The Terminal">
+          <div class="two-pic" style="grid-template-rows:1fr 1fr">
+            <div class="pic"><img src="assets/proposal/proposal-gate.png" alt=""></div>
+            <div class="pic"><img src="assets/proposal/proposal-pass.png" alt=""></div>
           </div>
         </div>
         <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
       </section>
 
       <section class="slide">
-        <div class="heads">
-          <div class="tag-box">للنقاش</div>
-          <div class="title-box">Ideas</div>
-        </div>
-        <div class="ideas">
-          <div class="idea a"><strong>Booths</strong><span>شكل البوثات وتوزيع البراندات</span></div>
-          <div class="idea b"><strong>Activities</strong><span>أنشطة قصيرة تحرك المكان</span></div>
-          <div class="idea c"><strong>Interactive Experiences</strong><span>تجارب يلمسها الطالب بنفسه</span></div>
-          <div class="idea d"><strong>Collaborations</strong><span>شراكات داخل الجامعة وخارجها</span></div>
-          <div class="idea e"><strong>Content Ideas</strong><span>لقطات ومحتوى يطلع مع الفعالية</span></div>
-          <div class="bulb" aria-hidden="true">
-            <svg viewBox="0 0 64 64" fill="none">
-              <path d="M32 8c-9.4 0-17 7.4-17 16.6 0 6.2 3.3 11.6 8.2 14.5V44h17.6v-4.9c4.9-2.9 8.2-8.3 8.2-14.5C49 15.4 41.4 8 32 8Z" stroke="#0F1926" stroke-width="3"/>
-              <path d="M25.5 48h13M28 53h8" stroke="#0F1926" stroke-width="3" stroke-linecap="round"/>
-              <circle cx="32" cy="24" r="3.2" fill="#0F1926"/>
-            </svg>
+        <div class="heads"><div class="tag">16 · المواد</div><div class="ttl">قائمة التنفيذ</div></div>
+        <ul class="list">
+          <li>بوابة الدخول</li>
+          <li>بوابة الخروج</li>
+          <li>بوث البوردنج</li>
+          <li>بوث الخروج</li>
+          <li>١٨ بوث مشاريع</li>
+          <li>لوحات إرشادية</li>
+          <li>لوحات أسماء المشاريع</li>
+          <li>بطاقات Pass</li>
+          <li>بطاقات تعريف</li>
+          <li>ستاندات / ملصقات</li>
+          <li>محتوى الشاشات</li>
+          <li>بنرات وتعليقات سقفية عند الحاجة</li>
+        </ul>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">17 · الإضاءة</div><div class="ttl">Lighting direction</div></div>
+        <div class="split split-21">
+          <div class="pic"><img src="assets/proposal/proposal-lighting.png" alt="إضاءة"></div>
+          <div class="stack">
+            <div class="card"><b>البوثات</b><span>LED تحت الكاونتر + صندوق إضاءة للخلفية.</span></div>
+            <div class="card"><b>البوابات</b><span>حافة مضيئة بيضاء على الهيكل Navy.</span></div>
+            <div class="card"><b>العناصر الرئيسية</b><span>تأكيد بصري على المدخل فقط في هذه المرحلة.</span></div>
+            <div class="card"><b>الشاشات</b><span>الشاشات القائمة تُستخدم كمصدر ضوء هوية.</span></div>
           </div>
         </div>
         <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
       </section>
 
-      <section class="slide teal">
-        <div class="heads">
-          <div class="tag-box">الخلاصة</div>
-          <div class="title-box">The Big Picture</div>
-        </div>
-        <div class="big">
-          <div class="board"><img src="assets/terminal-map.png" alt="شكل المساحة"></div>
-          <div class="stack">
-            <div class="cell"><em>وين؟</em><b>مبنى البنات · يومين</b></div>
-            <div class="cell"><em>وش فيه؟</em><b>مشاريع + بوثات + تجارب</b></div>
-            <div class="cell"><em>ليش؟</em><b>رحلة ريادة، مو معرض عابر</b></div>
+      <section class="slide">
+        <div class="heads"><div class="tag">18 · الخامات</div><div class="ttl">Look & Feel</div></div>
+        <div class="split split-21">
+          <div class="pic contain"><img src="assets/proposal/proposal-materials.png" alt="خامات"></div>
+          <div class="stack" style="justify-content:center">
+            <div class="card"><b>الاتجاه</b><span>نظيف · عصري · احترافي · شبابي · ريادي</span></div>
+            <div class="card"><b>مقترح خامات</b><span>خشب فاتح · Acrylic · معدن · قماش · Vinyl · LED</span></div>
+            <div class="card"><b>ملاحظة</b><span>مو مواصفات نهائية. اتجاه تصميم تعطونه الشركة قبل الـ 3D.</span></div>
           </div>
         </div>
-        <p class="punch">ندخل الطالب رحلة. يطلع وهو جرّب، شاف، وتفاعل.</p>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">19 · 3D</div><div class="ttl">الفيجوالز المطلوبة</div></div>
+        <ul class="list">
+          <li>١. منظور عام للفعالية</li>
+          <li>٢. منطقة الدخول</li>
+          <li>٣. بوث البوردنج</li>
+          <li>٤. كورنر الأمن</li>
+          <li>٥. منطقة البوثات</li>
+          <li>٦. بوث نموذجي</li>
+          <li>٧. منطقة الخروج</li>
+          <li>٨. المنطقة المركزية — لاحقًا</li>
+          <li>٩. لقطة علوية للتوزيع</li>
+          <li>مرجع المكان: صور الأتريوم المرفقة</li>
+        </ul>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">20 · النطاق</div><div class="ttl">مطلوب من شركة الإنتاج</div></div>
+        <ul class="list">
+          <li>التصميم والتنفيذ</li>
+          <li>تصنيع البوثات</li>
+          <li>تصنيع البوابات</li>
+          <li>الطباعة</li>
+          <li>الإضاءة</li>
+          <li>محتوى وتشغيل الشاشات</li>
+          <li>التركيب</li>
+          <li>الفك</li>
+          <li>التجهيز قبل الفعالية</li>
+          <li>الإشراف أثناء التنفيذ</li>
+        </ul>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">21 · الجدول</div><div class="ttl">مسار الاعتماد</div></div>
+        <div class="phases">
+          <div class="ph"><em>01</em><b>اعتماد الفكرة</b></div>
+          <div class="ph"><em>02</em><b>التصميم ثلاثي الأبعاد</b></div>
+          <div class="ph"><em>03</em><b>اعتماد التصاميم</b></div>
+          <div class="ph"><em>04</em><b>التصنيع</b></div>
+          <div class="ph"><em>05</em><b>التركيب</b></div>
+          <div class="ph"><em>12–13 Oct</em><b>الفعالية</b></div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide">
+        <div class="heads"><div class="tag">22 · التسليم</div><div class="ttl">نحتاج منكم تقديم</div></div>
+        <div class="need">
+          <div>تصور 3D متكامل</div>
+          <div>مقترح تصميم البوابات</div>
+          <div>تصميم البوثات</div>
+          <div>تصور الدخول والخروج</div>
+          <div>مقترح الهوية في الموقع</div>
+          <div>المقاسات والخامات</div>
+          <div>احتياجات الكهرباء والإضاءة</div>
+          <div>خطة التنفيذ + التكلفة التقديرية</div>
+        </div>
+        <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
+      </section>
+
+      <section class="slide navy">
+        <div class="end">
+          <img class="brand" src="assets/brand/logo-mark-white.png" alt="">
+          <div class="kicker">E-WEEK 2026 · THE TERMINAL</div>
+          <h1>من الفكرة إلى الأثر.</h1>
+          <p>جامعة الأمير سلطان · نادي ريادة الأعمال</p>
+          <p style="color:#9aa3ad;font-size:15px">12–13 أكتوبر · مبنى الطالبات</p>
+        </div>
         <div class="foot"><span>E-WEEK 2026 · THE TERMINAL</span><span class="pg"></span></div>
       </section>
 
