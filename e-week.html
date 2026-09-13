@@ -28,14 +28,17 @@
     .slide.on { display: flex; }
     .slide.teal { background: var(--teal); color: #fff; }
     .slide.cover { padding: 0; }
-    .cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .cover-dim { position: absolute; inset: 0; background: rgba(15,25,38,.82); }
-    .cover-copy { position: relative; z-index: 2; height: 100%; padding: 7% 7.2%; display: flex; flex-direction: column; justify-content: space-between; }
-    .cover-copy img { height: 48px; width: auto; }
+    .cover-copy {
+      position: relative; z-index: 2; height: 100%;
+      padding: 7% 7.2%;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .cover-copy .logo { height: 72px; width: auto; max-width: 42%; object-fit: contain; display: block; }
     .cover-copy h1 { font-size: clamp(32px, 4.2vw, 58px); line-height: 1.15; max-width: 9ch; }
     .cover-copy .sub { font-size: clamp(15px, 1.45vw, 20px); line-height: 1.65; max-width: 28ch; margin-top: 12px; color: var(--mint); }
     .facts { display: flex; flex-direction: column; gap: 10px; font-size: clamp(14px, 1.3vw, 18px); }
     .facts b { display: block; font-size: 12px; color: var(--mint); margin-bottom: 2px; }
+    .end .logo { height: 64px; width: auto; max-width: 36%; object-fit: contain; display: block; }
     .heads { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 2.6%; }
     .tag, .ttl { background: var(--teal); color: #fff; font-weight: 700; display: inline-block; line-height: 1.25; }
     .slide.teal .tag { background: var(--mint); color: var(--teal); }
@@ -91,10 +94,8 @@
     <div class="stage" id="stage">
 
       <section class="slide cover teal on">
-        <img class="cover-bg" src="assets/proposal/atrium-2.jpg" alt="">
-        <div class="cover-dim"></div>
         <div class="cover-copy">
-          <img src="assets/brand/logo-mark-white.png" alt="">
+          <img class="logo" src="assets/proposal/club-lockup.png" alt="نادي ريادة الأعمال">
           <div>
             <h1>أسبوع الريادة 2026</h1>
             <p class="sub">فعالية ريادية لعرض المشاريع والعلامات التجارية الطلابية.</p>
@@ -134,24 +135,23 @@
         <div class="path">
           <div class="step"><em>01</em><b>الدخول</b></div>
           <div class="step"><em>02</em><b>استلام الجواز</b></div>
-          <div class="step"><em>03</em><b>التجول بين المشاريع</b></div>
-          <div class="step"><em>04</em><b>جمع الأختام</b></div>
-          <div class="step"><em>05</em><b>استكشاف التجارب</b></div>
+          <div class="step"><em>03</em><b>التجول بين بوثات البراندات</b></div>
+          <div class="step"><em>04</em><b>بوثات التحديات</b></div>
+          <div class="step"><em>05</em><b>ختم لكل بوث يسمعه</b></div>
           <div class="step"><em>06</em><b>الخروج</b></div>
         </div>
-        <div class="quote">يتم إعطاء الطالب جواز أسبوع الريادة عند الدخول، ويستطيع جمع الأختام أثناء مروره على محطات الفعالية. الهدف زيادة التفاعل وتحويل الزيارة إلى تجربة ممتعة.</div>
+        <div class="quote">الطالب يتجول بين بوثات البراندات وبوثات التحديات. الختم يُعطى لكل بوث يسمع فكرته — مو مرور سريع.</div>
         <div class="foot"><span>أسبوع الريادة 2026</span><span class="pg"></span></div>
       </section>
 
       <section class="slide">
-        <div class="heads"><div class="tag">05</div><div class="ttl">فكرة الثيم: جواز وتجربة</div></div>
-        <p class="lead">زيارة الطالب لأسبوع الريادة تشبه رحلة يكتشف خلالها المشاريع والأفكار الريادية. يبدأ من بوابة الدخول، ويحصل على جواز أسبوع الريادة، ثم ينتقل بين المحطات ويجمع الأختام، إلى أن يصل إلى بوابة الخروج.</p>
+        <div class="heads"><div class="tag">05</div><div class="ttl">فكرة الثيم</div></div>
+        <p class="lead">زيارة الطالب لأسبوع الريادة تشبه رحلة يكتشف خلالها المشاريع والأفكار الريادية. يبدأ من بوابة الدخول، ينتقل بين بوثات البراندات وبوثات التحديات، ثم يصل إلى بوابة الخروج.</p>
         <ul class="list">
-          <li>جواز أسبوع الريادة</li>
-          <li>أختام المحطات</li>
           <li>بوابة الدخول</li>
+          <li>بوثات البراندات</li>
+          <li>بوثات التحديات</li>
           <li>بوابة الخروج</li>
-          <li>محطات / بوثات المشاريع</li>
           <li>عناصر إرشادية مرتبطة بفكرة الرحلة</li>
         </ul>
         <div class="quote">لا يتم إضافة ثيم أو ألوان أو عناصر جديدة غير معتمدة من الهوية.</div>
@@ -165,7 +165,7 @@
           <div class="pic contain"><img src="assets/proposal/eweek-passport-open.png" alt="صفحات الجواز"></div>
           <div class="pic contain"><img src="assets/proposal/eweek-stamps.png" alt="الأختام"></div>
         </div>
-        <div class="quote">الجواز جزء أساسي من تجربة الطالب: غلاف، صفحات داخلية، ومكان للأختام عند زيارة المحطات المحددة.</div>
+        <div class="quote">الجواز جزء أساسي من تجربة الطالب. الختم يُوضع في الجواز عند كل بوث يسمع فيه الطالب فكرة المشروع.</div>
         <div class="foot"><span>أسبوع الريادة 2026</span><span class="pg"></span></div>
       </section>
 
@@ -204,7 +204,7 @@
           <div><b>2 بنر جداري</b><span>يتم تثبيتهما على الجدار.</span></div>
           <div><b>2 قماش معلق</b><span>يتم تعليقهما من الأعلى في منطقة الفعالية.</span></div>
           <div><b>2 بنر معلق</b><span>يتم تعليقهما من الأعلى.</span></div>
-          <div><b>الجواز والأختام</b><span>طباعة جواز أسبوع الريادة وأختام المحطات.</span></div>
+          <div><b>الجواز والأختام</b><span>طباعة جواز أسبوع الريادة، وختم لكل بوث يسمع فيه الطالب.</span></div>
         </div>
         <table class="table">
           <tr><th>العنصر</th><td>العدد</td><td>الموقع</td></tr>
@@ -218,25 +218,9 @@
         <div class="foot"><span>أسبوع الريادة 2026</span><span class="pg"></span></div>
       </section>
 
-      <section class="slide">
-        <div class="heads"><div class="tag">10</div><div class="ttl">تصاميم الـ 3D المطلوبة</div></div>
-        <div class="need">
-          <div>1. التصميم العام للفعالية</div>
-          <div>2. بوابة الدخول</div>
-          <div>3. بوابة الخروج</div>
-          <div>4. تصميم البوث</div>
-          <div>5. توزيع الـ 15 بوث</div>
-          <div>6. البنرات الجدارية</div>
-          <div>7. القماش والبنرات المعلقة</div>
-          <div>8. شكل الجواز والأختام</div>
-          <div>9. تجربة الطالب داخل الفعالية</div>
-        </div>
-        <div class="foot"><span>أسبوع الريادة 2026</span><span class="pg"></span></div>
-      </section>
-
       <section class="slide teal">
         <div class="end">
-          <img src="assets/brand/logo-mark-white.png" alt="" style="height:48px;width:auto">
+          <img class="logo" src="assets/proposal/club-lockup.png" alt="نادي ريادة الأعمال">
           <h1>أسبوع الريادة 2026</h1>
           <div class="notes">
             <p>التصميم المطلوب الالتزام فيه بالهوية والثيم المعتمدين لأسبوع الريادة، وعدم إضافة عناصر أو تسميات أو ألوان أو أفكار غير معتمدة.</p>
