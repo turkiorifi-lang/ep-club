@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@dawod/thmanyah-font-web/index.css">
   <style>
     :root {
-      --teal: #2f5c5e;
-      --mint: #c5ddd4;
-      --fog: #f3f4f2;
+      --teal: #0F1926;
+      --mint: #e6e9ee;
+      --fog: #f4f5f7;
       --ink: #2f2f2f;
       --muted: #5a5a5a;
-      --line: #d9e0de;
+      --line: #d5d8dc;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; background: #111; font-family: "Thmanyah Sans", sans-serif; color: var(--ink); }
@@ -28,15 +28,14 @@
     .slide.on { display: flex; }
     .slide.teal { background: var(--teal); color: #fff; }
     .slide.cover { padding: 0; }
-    .cover-grid { height: 100%; display: grid; grid-template-columns: 1.05fr .95fr; }
-    .cover-copy { padding: 8% 8%; display: flex; flex-direction: column; justify-content: space-between; }
+    .cover-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .cover-dim { position: absolute; inset: 0; background: rgba(15,25,38,.82); }
+    .cover-copy { position: relative; z-index: 2; height: 100%; padding: 7% 7.2%; display: flex; flex-direction: column; justify-content: space-between; }
     .cover-copy img { height: 48px; width: auto; }
     .cover-copy h1 { font-size: clamp(32px, 4.2vw, 58px); line-height: 1.15; max-width: 9ch; }
     .cover-copy .sub { font-size: clamp(15px, 1.45vw, 20px); line-height: 1.65; max-width: 28ch; margin-top: 12px; color: var(--mint); }
     .facts { display: flex; flex-direction: column; gap: 10px; font-size: clamp(14px, 1.3vw, 18px); }
     .facts b { display: block; font-size: 12px; color: var(--mint); margin-bottom: 2px; }
-    .cover-pic { min-height: 0; overflow: hidden; }
-    .cover-pic img { width: 100%; height: 100%; object-fit: cover; display: block; }
     .heads { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; margin-bottom: 2.6%; }
     .tag, .ttl { background: var(--teal); color: #fff; font-weight: 700; display: inline-block; line-height: 1.25; }
     .slide.teal .tag { background: var(--mint); color: var(--teal); }
@@ -72,9 +71,9 @@
     .need { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .need div { background: #fff; padding: 14px 16px; font-weight: 700; color: var(--teal); font-size: clamp(14px, 1.3vw, 18px); }
     .foot { position: absolute; left: 5.4%; right: 5.4%; bottom: 2.6%; display: flex; justify-content: space-between; font-size: 11px; color: #8a8a8a; }
-    .slide.teal .foot { color: rgba(197,221,212,.75); }
+    .slide.teal .foot { color: rgba(230,233,238,.7); }
     .foot .pg { direction: ltr; unicode-bidi: isolate; }
-    .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(47,92,94,.12); z-index: 5; }
+    .progress { position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: rgba(15,25,38,.12); z-index: 5; }
     .progress i { display: block; height: 100%; width: 0; background: var(--teal); }
     .stage:has(.slide.teal.on) .progress { background: rgba(255,255,255,.14); }
     .stage:has(.slide.teal.on) .progress i { background: var(--mint); }
@@ -92,20 +91,19 @@
     <div class="stage" id="stage">
 
       <section class="slide cover teal on">
-        <div class="cover-grid">
-          <div class="cover-copy">
-            <img src="assets/brand/logo-mark-white.png" alt="">
-            <div>
-              <h1>أسبوع الريادة 2026</h1>
-              <p class="sub">فعالية ريادية لعرض المشاريع والعلامات التجارية الطلابية.</p>
-            </div>
-            <div class="facts">
-              <div><b>التاريخ</b>12–13 أكتوبر 2026</div>
-              <div><b>الموقع</b>مبنى الطالبات – جامعة الأمير سلطان</div>
-              <div><b>الوقت</b>9:00 صباحًا – 3:00 مساءً</div>
-            </div>
+        <img class="cover-bg" src="assets/proposal/atrium-2.jpg" alt="">
+        <div class="cover-dim"></div>
+        <div class="cover-copy">
+          <img src="assets/brand/logo-mark-white.png" alt="">
+          <div>
+            <h1>أسبوع الريادة 2026</h1>
+            <p class="sub">فعالية ريادية لعرض المشاريع والعلامات التجارية الطلابية.</p>
           </div>
-          <div class="cover-pic"><img src="assets/proposal/booth-ref.png" alt=""></div>
+          <div class="facts">
+            <div><b>التاريخ</b>12–13 أكتوبر 2026</div>
+            <div><b>الموقع</b>مبنى الطالبات – جامعة الأمير سلطان</div>
+            <div><b>الوقت</b>9:00 صباحًا – 3:00 مساءً</div>
+          </div>
         </div>
         <div class="foot"><span>أسبوع الريادة 2026</span><span class="pg"></span></div>
       </section>
@@ -176,11 +174,11 @@
         <div class="split split-21">
           <div class="pic contain"><img src="assets/proposal/plan-clean.png" alt="المخطط"></div>
           <div class="legend">
-            <div><i style="background:#7db0b0"></i>15 بوث</div>
-            <div><i style="background:#2f5c5e"></i>بوابة دخول + بوابة خروج</div>
-            <div><i style="background:#2f5c5e"></i>2 بنر جداري</div>
-            <div><i style="background:#d2e0e0"></i>2 قماش معلق من الأعلى</div>
-            <div><i style="background:#2f5c5e"></i>2 بنر معلق من الأعلى</div>
+            <div><i style="background:#0F1926"></i>15 بوث</div>
+            <div><i style="background:#0F1926"></i>بوابة دخول + بوابة خروج</div>
+            <div><i style="background:#0F1926"></i>2 بنر جداري</div>
+            <div><i style="background:#dce0e4"></i>2 قماش معلق من الأعلى</div>
+            <div><i style="background:#0F1926"></i>2 بنر معلق من الأعلى</div>
           </div>
         </div>
         <div class="foot"><span>أسبوع الريادة 2026</span><span class="pg"></span></div>
